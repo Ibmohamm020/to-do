@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Progression System</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head><style>
+    /* Add your custom styles here */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+        color: #333;
+    }
+
+    .main-content {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: #3498db;
+    }
+
+    p {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    strong {
+        font-weight: bold;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #2980b9;
+    }
+    </style>
+
+<body>
+    <div class="main-content">
+        <h1>Your Progression</h1>
+        <div>
+            <p><strong>Current Rank:</strong> <span id="currentRank">Private</span></p>
+            <p><strong>Score:</strong> <span id="currentScore">0</span></p>
+            <p><strong>Days of Consistency:</strong> <span id="consistencyDays">0</span></p>
+        </div>
+        <button id="completeTaskButton">Complete Task</button>
+    </div>
+
+    <script>
+        const ranks = [
+            { name: "Private", minScore: 0, consistencyDays: 0 },
+            { name: "Recruit", minScore: 50, consistencyDays: 2 },
+            { name: "Private First Class", minScore: 100, consistencyDays: 4 },
+            { name: "Lance Corporal", minScore: 200, consistencyDays: 6 },
+            { name: "Corporal", minScore: 300, consistencyDays: 8 },
+            { name: "Sergeant", minScore: 450, consistencyDays: 10 },
+            { name: "Staff Sergeant", minScore: 600, consistencyDays: 14 },
+            // Add more ranks and criteria as needed
+        ];
+
+        let currentRankIndex = 0;
+        let currentScore = 0;
+        let consistencyDays = 0;
+
+        const currentRankElement = document.getElementById("currentRank");
+        const currentScoreElement = document.getElementById("currentScore");
+        const consistencyDaysElement = document.getElementById("consistencyDays");
+        const completeTaskButton = document.getElementById("completeTaskButton");
+
+        let promotionTimer;
+
+        updateUI();
+
+        completeTaskButton.addEventListener("click", () => {
+            currentScore += 10;
+            consistencyDays++;
+
+            checkPromotion();
+
+            updateUI();
+        });
+
+        function checkPromotion() {
+            const nextRank = ranks[currentRankIndex + 1];
+            if (nextRank && currentScore >= nextRank.minScore && consistencyDays >= nextRank.consistencyDays) {
+                promoteUser(nextRank);
+            }
+        }
+
+        function promoteUser(rank) {
+            clearTimeout(promotionTimer);
+
+            // Display promotion notification
+            alert(`Congratulations! You've been promoted to ${rank.name}`);
+
+            // Provide rewards here if needed
+
+            currentRankIndex++;
+            currentScore = 0;
+            consistencyDays = 0;
+
+            // Schedule next promotion check after a specified time (e.g., one week)
+            const promotionInterval = 7 * 24 * 60 * 60 * 1000; // 1 week in milliseconds
+            promotionTimer = setTimeout(checkPromotion, promotionInterval);
+        }
+
+        function updateUI() {
+            currentRankElement.textContent = ranks[currentRankIndex].name;
+            currentScoreElement.textContent = currentScore;
+            consistencyDaysElement.textContent = consistencyDays;
+        }
+    </script> 
+   
+</body>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Set Goals</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<style>
+    /* Add your custom styles here */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+        color: #333;
+    }
+
+    .main-content {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: #3498db;
+    }
+
+    label {
+        font-size: 18px;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    input[type="text"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #2980b9;
+    }
+
+    .goal-container {
+        border-top: 2px solid #3498db;
+        margin-top: 20px;
+        padding-top: 20px;
+    }
+
+    .goal-title {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: #3498db;
+    }
+
+    .goal-text {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+</style>
+<body>
+    <div class="main-content">
+        <h1>Set Your Goals</h1>
+        
+        <label for="hourlyGoal">Hourly Goal:</label>
+        <input type="text" id="hourlyGoal" placeholder="Enter your hourly goal here...">
+
+        <label for="dailyGoal">Daily Goal:</label>
+        <input type="text" id="dailyGoal" placeholder="Enter your daily goal here...">
+
+        <label for="shortTermGoal">Short-Term Goal:</label>
+        <input type="text" id="shortTermGoal" placeholder="Enter your short-term goal here...">
+
+        <label for="longTermGoal">Long-Term Goal:</label>
+        <input type="text" id="longTermGoal" placeholder="Enter your long-term goal here...">
+
+        <label for="notes">Additional Notes:</label>
+        <textarea id="notes" placeholder="Enter any additional notes here..."></textarea>
+
+        <button id="saveButton">Save Goals</button>
+    </div>
+   <div>
+    <label for="hourlyGoalFiles">Hourly Goal Multimedia:</label>
+    <input type="file" id="hourlyGoalFiles" accept="image/*, video/*, audio/*" multiple>
+
+    <label for="dailyGoalFiles">Daily Goal Multimedia:</label>
+    <input type="file" id="dailyGoalFiles" accept="image/*, video/*, audio/*" multiple>
+
+    <label for="shortTermGoalFiles">Short-Term Goal Multimedia:</label>
+    <input type="file" id="shortTermGoalFiles" accept="image/*, video/*, audio/*" multiple>
+
+    <label for="longTermGoalFiles">Long-Term Goal Multimedia:</label>
+    <input type="file" id="longTermGoalFiles" accept="image/*, video/*, audio/*" multiple>
+
+    <button id="saveButton">Save Goals</button>
+    <label for="hourlyGoalFiles">Hourly Goal Multimedia:</label>
+        <input type="file" id="hourlyGoalFiles" accept="image/*, video/*, audio/*" multiple>
+        <button id="takeHourlyPicture">Take Picture</button>
+        <button id="takeHourlyVideo">Record Video</button>
+        <button id="recordHourlyAudio">Record Audio</button>
+
+        <label for="dailyGoalFiles">Daily Goal Multimedia:</label>
+        <input type="file" id="dailyGoalFiles" accept="image/*, video/*, audio/*" multiple>
+        <button id="takeDailyPicture">Take Picture</button>
+        <button id="takeDailyVideo">Record Video</button>
+        <button id="recordDailyAudio">Record Audio</button>
+  </div>
+
+    <div class="goal-container">
+        <div class="goal-title">Your Goals:</div>
+        <div class="goal-text" id="hourlyGoalText"></div>
+        <div class="goal-text" id="dailyGoalText"></div>
+        <div class="goal-text" id="shortTermGoalText"></div>
+        <div class="goal-text" id="longTermGoalText"></div>  <div class="goal-multimedia" id="hourlyGoalMultimedia"></div>
+        <div class="goal-multimedia" id="dailyGoalMultimedia"></div>
+        <div class="goal-multimedia" id="shortTermGoalMultimedia"></div>
+        <div class="goal-multimedia" id="longTermGoalMultimedia"></div>
+        <div class="goal-multimedia" id="hourlyGoalMultimedia"></div>
+        <div class="goal-multimedia" id="dailyGoalMultimedia"></div>
+        <!-- ... (similar multimedia containers for short-term and long-term goals) ... -->
+    </div>
+
+
+    </div>
+    
+    <div class="goal-container">
+        <div class="goal-title">Your Goals:</div>
+        <div class="goal-text" id="hourlyGoalText"></div>
+        <div class="goal-text" id="dailyGoalText"></div>
+        <div class="goal-text" id="shortTermGoalText"></div>
+        <div class="goal-text" id="longTermGoalText"></div>
+        <div class="goal-multimedia" id="hourlyGoalMultimedia"></div>
+        <div class="goal-multimedia" id="dailyGoalMultimedia"></div>
+        <div class="goal-multimedia" id="shortTermGoalMultimedia"></div>
+        <div class="goal-multimedia" id="longTermGoalMultimedia"></div>
+    </div>
+
+
+    <script>
+        const saveButton = document.getElementById("saveButton");
+        const hourlyGoalText = document.getElementById("hourlyGoalText");
+        const dailyGoalText = document.getElementById("dailyGoalText");
+        const shortTermGoalText = document.getElementById("shortTermGoalText");
+        const longTermGoalText = document.getElementById("longTermGoalText");
+
+        saveButton.addEventListener("click", () => {
+            hourlyGoalText.textContent = `- Hourly Goal: ${document.getElementById("hourlyGoal").value}`;
+            dailyGoalText.textContent = `- Daily Goal: ${document.getElementById("dailyGoal").value}`;
+            shortTermGoalText.textContent = `- Short-Term Goal: ${document.getElementById("shortTermGoal").value}`;
+            longTermGoalText.textContent = `- Long-Term Goal: ${document.getElementById("longTermGoal").value}`;
+        });
+
+        saveButton.addEventListener("click", () => {
+        // ... Your existing code ...
+
+        // Display multimedia content if provided
+        displayMultimedia("hourlyGoalMultimedia", hourlyGoalFiles);
+        displayMultimedia("dailyGoalMultimedia", dailyGoalFiles);
+        displayMultimedia("shortTermGoalMultimedia", shortTermGoalFiles);
+        displayMultimedia("longTermGoalMultimedia", longTermGoalFiles);
+        const hourlyGoalFiles = document.getElementById("hourlyGoalFiles").files;
+            const dailyGoalFiles = document.getElementById("dailyGoalFiles").files;
+            const shortTermGoalFiles = document.getElementById("shortTermGoalFiles").files;
+            const longTermGoalFiles = document.getElementById("longTermGoalFiles").files;
+            displayMultimedia("hourlyGoalMultimedia", hourlyGoalFiles);
+            displayMultimedia("dailyGoalMultimedia", dailyGoalFiles);
+            displayMultimedia("shortTermGoalMultimedia", shortTermGoalFiles);
+            displayMultimedia("longTermGoalMultimedia", longTermGoalFiles);
+    });
+
+    function displayMultimedia(containerId, files) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = ""; // Clear previous content
+
+        if (files.length > 0) {
+            container.innerHTML = "<strong>Multimedia:</strong><br>";
+            files.forEach(file => {
+                const fileLink = document.createElement("a");
+                fileLink.href = URL.createObjectURL(file);
+                fileLink.target = "_blank";
+                fileLink.textContent = file.name;
+                container.appendChild(fileLink);
+                container.appendChild(document.createElement("br"));
+            });
+        }
+    }
+    const takeHourlyPictureButton = document.getElementById("takeHourlyPicture");
+        const takeDailyPictureButton = document.getElementById("takeDailyPicture");
+        // ... (similar buttons for videos and audio) ...
+
+        // Add event listeners to the buttons
+        takeHourlyPictureButton.addEventListener("click", () => {
+            captureMedia("hourlyGoalFiles", "image/*", "image");
+        });
+
+        takeDailyPictureButton.addEventListener("click", () => {
+            captureMedia("dailyGoalFiles", "image/*", "image");
+        });
+
+        // ... (similar event listeners for videos and audio) ...
+
+        function captureMedia(inputId, acceptType, mediaType) {
+            const input = document.getElementById(inputId);
+            const constraints = {
+                video: mediaType === "video",
+                audio: mediaType === "audio"
+            };
+
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(stream => {
+                    const mediaRecorder = new MediaRecorder(stream);
+                    const chunks = [];
+
+                    mediaRecorder.ondataavailable = event => {
+                        if (event.data.size > 0) {
+                            chunks.push(event.data);
+                        }
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const blob = new Blob(chunks, { type: acceptType });
+                        const url = URL.createObjectURL(blob);
+
+                        const mediaElement = document.createElement(mediaType);
+                        mediaElement.controls = true;
+                        mediaElement.src = url;
+
+                        input.parentNode.appendChild(mediaElement);
+                        input.files = [blob]; // Attach the captured media to the input
+                    };
+
+                    // Start capturing
+                    mediaRecorder.start();
+
+                    setTimeout(() => {
+                        mediaRecorder.stop();
+                        stream.getTracks().forEach(track => track.stop());
+                    }, 10000); // Capture for a maximum of 10 seconds
+                })
+                .catch(error => {
+                    console.error("Error capturing media:", error);
+                });
+            }
+        </script>
+        
+        <aside>
+            <nav class="vertical-menu">
+                <ul>
+                    <li><a href="index.html">home</a></li>
+                    <li><a href="task creation.html">task creation</a></li>
+                    <li><a href="reminders.html">reminders</a></li>
+                    <li><a href="task details.html">details</a></li>
+                    <li><a href="goals.html">goals</a></li>
+                    <li><a href="diary.html">Diary</a></li>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="notes.html"> notes</a></li>
+                </ul>
+            </nav>
+        </aside>   
+
+
+</body>
+</html> 
+</html>

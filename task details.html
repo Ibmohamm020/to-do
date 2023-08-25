@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title id="taskTitle">Task Page</title>
+
+</head>
+<style>
+    textarea{
+        width:70%;
+        height: 100%;
+    }
+    /* Apply styles to the entire page */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+/* Header styling */
+header {
+  background-color: #2ecc71;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Main content container */
+.main-content {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+/* Article styling */
+article {
+  flex: 2;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Aside styling */
+aside {
+  flex: 1;
+  background-color: #f4f4f4;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Task list styling */
+#taskList {
+  list-style: none;
+  padding: 0;
+}
+
+.task-item {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Button styling */
+button {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #27ae60;
+}
+
+/* Media container styling */
+.media-container {
+  position: relative;
+  margin-top: 1rem;
+}
+
+.media-element {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.save-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #3498db;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Add more styles as needed */
+
+</style>
+<body>
+    
+  <h1>  Welcome to the task page. In this page, you can create stories about your tasks.</h1>
+  <textarea id="taskDescriptionInput" rows="4" cols="50" placeholder="Enter task description"></textarea>
+ <input type="text" id="taskTitleInput" placeholder="Enter task title"><br>
+
+ <button id="captureVideoButton">Capture Video</button><br>
+<button id="captureImageButton">Capture Image</button><br>
+<button id="captureAudioButton">Capture Audio</button><br>
+<div id="mediaContainer"></div><!-- Inside each media container -->
+<div class="media-container">
+  <!-- ... existing media content ... -->
+  <button class="save-button">Save</button>
+</div>
+
+
+
+<script>
+const captureVideoButton = document.getElementById("captureVideoButton");
+const captureImageButton = document.getElementById("captureImageButton");
+const captureAudioButton = document.getElementById("captureAudioButton");
+const mediaContainer = document.getElementById("mediaContainer");
+
+captureVideoButton.addEventListener("click", async () => {
+  try {
+    const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+    const videoElement = document.createElement("video");
+    videoElement.srcObject = mediaStream;
+    videoElement.controls = true; // Add controls
+    mediaContainer.innerHTML = "";
+    mediaContainer.appendChild(videoElement);
+  } catch (error) {
+    console.error("Error capturing video:", error);
+  }
+});
+
+captureImageButton.addEventListener("click", async () => {
+  try {
+    const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+    const imageCapture = new ImageCapture(mediaStream.getVideoTracks()[0]);
+    const photoBlob = await imageCapture.takePhoto();
+    const imageElement = document.createElement("img");
+    imageElement.src = URL.createObjectURL(photoBlob);
+    mediaContainer.innerHTML = "";
+    mediaContainer.appendChild(imageElement);
+  } catch (error) {
+    console.error("Error capturing image:", error);
+  }
+});
+
+captureAudioButton.addEventListener("click", async () => {
+  try {
+    const mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const audioElement = document.createElement("audio");
+    audioElement.srcObject = mediaStream;
+    audioElement.controls = true; // Add controls
+    mediaContainer.innerHTML = "";
+    mediaContainer.appendChild(audioElement);
+  } catch (error) {
+    console.error("Error capturing audio:", error);
+  }
+});
+// Inside your JavaScript code
+document.querySelectorAll('.save-button').forEach(button => {
+  button.addEventListener('click', function() {
+    const mediaElement = this.closest('.media-container').querySelector('video, img, audio');
+    const mediaType = mediaElement.tagName.toLowerCase();
+    const blob = getBlobFromMediaElement(mediaElement);
+
+    if (blob) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `captured_${mediaType}.${getMediaExtension(mediaType)}`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  });
+});
+
+function getBlobFromMediaElement(mediaElement) {
+  const canvas = document.createElement('canvas');
+  canvas.width = mediaElement.videoWidth || mediaElement.width;
+  canvas.height = mediaElement.videoHeight || mediaElement.height;
+  const ctx = canvas.getContext('2d');
+
+  ctx.drawImage(mediaElement, 0, 0, canvas.width, canvas.height);
+  return canvas.toBlob(blob => blob, getMimeType(mediaElement.tagName.toLowerCase()));
+}
+
+function getMimeType(mediaType) {
+  return {
+    video: 'video/webm',
+    img: 'image/png',
+    audio: 'audio/wav'
+  }[mediaType];
+}
+
+function getMediaExtension(mediaType) {
+  return {
+    video: 'webm',
+    img: 'png',
+    audio: 'wav'
+  }[mediaType];
+}
+
+</script>
+<aside>
+  <nav class="vertical-menu">
+      <ul>
+          <li><a href="home page">home</a></li>
+          <li><a href="task creation">task creation</a></li>
+          <li><a href="reminders">reminders</a></li>
+          <li><a href="task details">notes and details</a></li>
+          <li><a href="goals">goals</a></li>
+          <li><a href="diary">Diary</a></li>
+          <li><a href="about">absolute</a></li>
+          <li><a href="notes"> notes</a></li>
+      </ul>
+  </nav>
+</aside>
+    
+</body>
+</html>

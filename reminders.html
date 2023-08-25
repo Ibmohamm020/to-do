@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>to-do-list</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
+</head>
+<style>
+    /* Reset some default styles for the page */
+    body, ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Style for the vertical menu */
+    .vertical-menu {
+        width: 200px; /* Set the width of the menu */
+        background-color: #333; /* Background color */
+    }
+
+    /* Style for each menu item (link) */
+    .vertical-menu a {
+        display: block;
+        color: white; /* Text color */
+        padding: 12px 16px; /* Spacing around the link */
+        text-decoration: none; /* Remove underline */
+    }
+
+    /* Hover effect for menu items */
+    .vertical-menu a:hover {
+        background-color: #555; /* Background color on hover */
+    }
+
+    /* Add your other previously provided styling here */
+
+    /* Style for the reminders list */
+    .list-style {
+        list-style-type: none;
+        margin: 20px;
+        padding: 0;
+    }
+
+    .list-style li {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin: 10px 0;
+        padding: 10px;
+    }
+</style>
+<body>
+    <div class="main-content">
+        <article>
+            <header>Reminders</header>
+            <ol id="remindersList" class="list-style"></ol>
+        </article>
+        <aside>
+            <nav class="vertical-menu">
+                <ul>
+                    <li><a href="index.html">home</a></li>
+                    <li><a href="task creation.html">task creation</a></li>
+                    <li><a href="reminders.html">reminders</a></li>
+                    <li><a href="task details.html">details</a></li>
+                    <li><a href="goals.html">goals</a></li>
+                    <li><a href="diary.html">Diary</a></li>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="notes.html"> notes</a></li>
+                </ul>
+            </nav>
+        </aside>   
+    </div>
+    <button id="prevButton">Previous</button>
+    <button id="nextButton">Next</button>
+    <script src="navigation.js"></script>
+    <script>
+        // Sample data representing tasks and priorities
+        const tasks = [
+            { task: 'Complete project', priority: 2 },
+            { task: 'Exercise', priority: 1 },
+            { task: 'Read a book', priority: 3 },
+            // ... (more tasks)
+        ];
+
+        function populateRemindersList() {
+            const remindersList = document.getElementById('remindersList');
+
+            // Sort tasks based on priority (ascending order)
+            tasks.sort((a, b) => a.priority - b.priority);
+
+            tasks.forEach(taskObj => {
+                const li = document.createElement('li');
+                li.textContent = `${taskObj.task} (Priority: ${taskObj.priority})`;
+                remindersList.appendChild(li);
+            });
+        }
+
+        populateRemindersList();
+    </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Notes Page</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<style>
+    /* Reset some default styles for the page */
+    body, ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* ... (rest of the styles you provided) */
+
+    /* Style for the topic bars */
+    .topic-bar {
+        width: 100%;
+        height: 40px;
+        background-color: #3498db;
+        margin: 10px 0;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .topic-label {
+        color: white;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .topic-progress {
+        width: 50px;
+        height: 100%;
+        background-color: #e74c3c;
+        border-radius: 5px;
+    }
+
+    .topic-bar:hover {
+        background-color: #2980b9;
+    }
+</style>
+<body>
+    <!-- ... (previous HTML code) -->
+
+    <div class="main-content">
+        <article>
+            <h1> Welcome to the notes page.</h1>
+            <h3>Here we try our very best to arm you with skills we believe will improve anyone's life</h3>
+            <div class="main-content">
+                <header>Notes Page</header>
+                <h1>My Notes</h1>
+                <div class="topic-bar">
+                    <a href="how to create a to do list.html">how to create a to do list</a>
+                    <div class="topic-progress"></div>
+                </div>
+                <div class="topic-bar" id="how to stay motivated through the day.html">
+                    <a href="how to stay motivated through the day.html">how to stay motivated to accomplish your tasks through the day</a>
+                    <div class="topic-progress"></div>
+                </div>
+                <div class="topic-bar">
+                    <a href="mindfulness and relaxation.html">mindfulness  and relaxation</a>
+                    <div class="topic-progress"></div>
+                </div>
+                <div class="topic-bar">
+                    <a href="task management tips.html">task management tips</a>
+                    <div class="topic-progress"></div>
+                </div>
+                <div class="topic-bar">
+                    <a href="health and wellness.html">health and wellness</a>
+                    <div class="topic-progress"></div>
+                </div>
+                <div class="topic-bar">
+                    <a href="personal developement resources.html">personal developement resources</a>
+                    <div class="topic-progress"></div>
+                </div>
+            </div>
+        </article>
+        <script>
+    // Get all topic bars
+    const topicBars = document.querySelectorAll('.topic-bar');
+
+    // Add event listeners to each topic bar
+    topicBars.forEach(topicBar => {
+        topicBar.addEventListener('click', () => {
+            // Remove the 'active-topic' class from all topic bars
+            topicBars.forEach(bar => bar.classList.remove('active-topic'));
+            // Add the 'active-topic' class to the clicked topic bar
+            topicBar.classList.add('active-topic');
+            // Redirect to the corresponding page (change the URL as needed)
+            window.location.href = `topic${topicBar.id.slice(-1)}.html`;
+        });
+    });
+</script> 
+<aside>
+    <nav class="vertical-menu">
+        <ul>
+            <li><a href="index.html">home</a></li>
+            <li><a href="task creation.html">task creation</a></li>
+            <li><a href="reminders.html">reminders</a></li>
+            <li><a href="task details.html">details</a></li>
+            <li><a href="goals.html">goals</a></li>
+            <li><a href="diary.html">Diary</a></li>
+            <li><a href="about.html">about</a></li>
+            <li><a href="notes.html"> notes</a></li>
+        </ul>
+    </nav>
+</aside>   
+
+
+</body>
+</html>

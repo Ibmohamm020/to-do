@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>diary Page</title>
+</head>
+<body>
+    <h1> With a diary, a life will be more memorable, with a diary, a life will be more fulfilling, with a diary, a life will be worth tons of libraries</h1>
+    <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Diary Page</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<style>
+    /* Add your previous styling here */
+
+    /* Style for the diary entry area */
+    .diary-entry {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+        padding: 20px;
+    }
+
+    /* Style for buttons */
+    .action-button {
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    .action-button:hover {
+        background-color: #2980b9;
+    }  #diaryText {
+        width: 80%;
+        height: 400px;
+        margin: 20px auto;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        overflow-y: scroll;
+    }
+
+    /* Style for the buttons */
+    #takePictureButton,
+    #recordVideoButton,
+    #recordAudioButton,
+    #uploadPictureButton {
+        margin-right: 10px;
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #takePictureButton:hover,
+    #recordVideoButton:hover,
+    #recordAudioButton:hover,
+    #uploadPictureButton:hover {
+        background-color: #2980b9;
+    }
+
+    /* Style for uploaded images */
+    #diaryText img {
+        max-width: 100%;
+        margin: 10px 0;
+    }
+  h1{
+    background-color: darkgray;
+    width: auto;
+    height: 30%;
+    color: #3498db;
+  }
+  body{
+    background-color: aquamarine;
+    font-family: 'Times New Roman', Times, serif;
+  }
+</style>
+<body>
+    <div class="main-content">
+        <article>
+            <header>Diary Page</header>
+            <div class="diary-entry">
+                <h2>Today's Activities</h2>
+                <textarea id="diaryText" rows="10" cols="50" placeholder="Write about your activities..."></textarea>
+                <div>
+                    <button class="action-button" id="takePictureButton">Take Picture</button>
+                    <button class="action-button" id="recordVideoButton">Record Video</button>
+                    <button class="action-button" id="recordAudioButton">Record Audio</button>
+                    <input type="file" accept="image/*" id="localPictureInput">
+                    <button class="action-button" id="uploadPictureButton">Upload Picture</button>
+                </div>
+            </div>
+        </article>
+    </div>
+    <button id="prevButton">Previous</button>
+    <button id="nextButton">Next</button>
+  <!-- ... (previous HTML code) -->
+
+  <script>
+    // Add event listeners to buttons and inputs
+    const takePictureButton = document.getElementById('takePictureButton');
+    const recordVideoButton = document.getElementById('recordVideoButton');
+    const recordAudioButton = document.getElementById('recordAudioButton');
+    const localPictureInput = document.getElementById('localPictureInput');
+    const uploadPictureButton = document.getElementById('uploadPictureButton');
+    const diaryText = document.getElementById('diaryText');
+
+    takePictureButton.addEventListener('click', takePicture);
+    recordVideoButton.addEventListener('click', recordVideo);
+    recordAudioButton.addEventListener('click', recordAudio);
+    uploadPictureButton.addEventListener('click', uploadPicture);
+
+    function takePicture() {
+        // Implement the logic for taking a picture
+        // For example, using the getUserMedia API
+    }
+
+    function recordVideo() {
+        // Implement the logic for recording a video
+        // For example, using the getUserMedia API
+    }
+
+    function recordAudio() {
+        // Implement the logic for recording audio
+        // For example, using the getUserMedia API
+    }
+
+    localPictureInput.addEventListener('change', handleLocalPicture);
+
+    function handleLocalPicture(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const img = document.createElement('img');
+                img.src = reader.result;
+                diaryText.appendChild(img);
+                saveImageToLocalStorage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function uploadPicture() {
+        localPictureInput.click();
+    }
+
+    function saveImageToLocalStorage(imageData) {
+        const images = JSON.parse(localStorage.getItem('diaryImages')) || [];
+        images.push(imageData);
+        localStorage.setItem('diaryImages', JSON.stringify(images));
+    }
+
+    // Load images from local storage and display them
+    function loadImagesFromLocalStorage() {
+        const images = JSON.parse(localStorage.getItem('diaryImages')) || [];
+        images.forEach(imageData => {
+            const img = document.createElement('img');
+            img.src = imageData;
+            diaryText.appendChild(img);
+        });
+    }
+
+    loadImagesFromLocalStorage();
+</script>
+<aside>
+    <nav class="vertical-menu">
+        <ul>
+            <li><a href="index.html">home</a></li>
+            <li><a href="task creation.html">task creation</a></li>
+            <li><a href="reminders.html">reminders</a></li>
+            <li><a href="task details.html">details</a></li>
+            <li><a href="goals.html">goals</a></li>
+            <li><a href="diary.html">Diary</a></li>
+            <li><a href="about.html">about</a></li>
+            <li><a href="notes.html"> notes</a></li>
+        </ul>
+    </nav>
+</aside>   
+</body>
+</html>

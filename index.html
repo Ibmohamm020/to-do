@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>to-do-list</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
+    <style>
+        /* Reset some default styles for the page */
+        body, ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Style for the vertical menu */
+        .vertical-menu {
+            width: 200px; /* Set the width of the menu */
+            background-color: #333; /* Background color */
+        }
+
+        /* Style for each menu item (link) */
+        .vertical-menu a {
+            display: block;
+            color: white; /* Text color */
+            padding: 12px 16px; /* Spacing around the link */
+            text-decoration: none; /* Remove underline */
+        }
+
+        /* Hover effect for menu items */
+        .vertical-menu a:hover {
+            background-color: #555; /* Background color on hover */
+        }
+
+        header {
+            background-color: #555;
+            color: bisque;
+            font-style: italic;
+            padding: 30px;
+            width: 70%;
+            height: auto;
+            text-align: center;
+            text-size-adjust: auto;
+        }
+
+        /* Basic styling to ensure elements are positioned properly */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        /* Style for the main content container */
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        /* Style for the main content article */
+        article {
+            flex: 2;
+            padding-right: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style for the aside */
+        aside {
+            flex: 1;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style for buttons */
+        button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <article>
+            <header>Homepage</header>
+            <br>
+            <h1>Welcome to the to-do-list site</h1>
+            <p>As it is said:</p>
+            <h2>With a plan, I am able to conquer all</h2>
+            <div id="calendar"></div>
+            <script>
+                function createCalendar(year, month) {
+                    // ... (rest of the calendar generation code)
+                }
+
+                createCalendar(2023, 8); // August 2023
+            </script>
+        </article>
+        <aside>
+            <nav class="vertical-menu">
+                <ul>
+                    <li><a href="index.html">home</a></li>
+                    <li><a href="task creation.html">task creation</a></li>
+                    <li><a href="reminders.html">reminders</a></li>
+                    <li><a href="task details.html">details</a></li>
+                    <li><a href="goals.html">goals</a></li>
+                    <li><a href="diary.html">Diary</a></li>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="notes.html"> notes</a></li>
+                </ul>
+            </nav>
+        </aside>
+    </div>
+    <button id="prevButton">Previous</button>
+    <button id="nextButton">Next</button>
+    <script src="navigation.js"></script>
+    <script>
+        const prevButton = document.getElementById("prevButton");
+        const nextButton = document.getElementById("nextButton");
+        // Add event listeners to the buttons
+        prevButton.addEventListener("click", goToPreviousPage);
+        nextButton.addEventListener("click", goToNextPage);
+        // Navigation functions
+        function goToPreviousPage() {
+            window.history.back(); // Go back to the previous page in browser history
+        }
+
+        function goToNextPage() {
+            window.history.forward(); // Go forward to the next page in browser history
+        }
+    </script>
+</body>
+</html>

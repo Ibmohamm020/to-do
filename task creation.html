@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>to-do-list</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalender/5.10.1/main.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalender/5.10.1/min/js"></script>
+</head>
+<style>
+  /* Reset some default styles for the page */
+body, ul {
+  margin: 0;
+  padding: 0;
+}
+
+/* Style for the vertical menu */
+.vertical-menu {
+  width: 200px; /* Set the width of the menu */
+  background-color: #333; /* Background color */
+}
+a{
+    text-decoration: underline;
+}
+
+/* Style for each menu item (link) */
+.vertical-menu a {
+  display: block;
+  color: white; /* Text color */
+  padding: 12px 16px; /* Spacing around the link */
+  text-decoration: none; /* Remove underline */
+}
+
+/* Hover effect for menu items */
+.vertical-menu a:hover {
+  background-color: #555; /* Background color on hover */
+}
+ header{
+    background-color: #555;
+    color: bisque;
+    font-style:italic ;
+    padding: 30px;
+    width: 70%;
+    height: auto;
+    text-align: center;
+    text-size-adjust: auto;
+    
+ }
+aside{
+    height:70%;
+    width:20%;
+    padding:auto;
+    background-color: blanchedalmond;
+    color: blue;
+}
+ul{
+    margin: 0%;
+    padding: 0%;
+}
+/* Basic styling to ensure elements are positioned properly */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Style for the main content container */
+.main-content {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Spread items horizontally */
+  padding: 20px;
+}
+
+/* Style for the main content article */
+article {
+  flex: 2; /* Main content occupies 2/3 of the width */
+  padding-right: 20px;
+}
+
+/* Style for the aside */
+aside {
+  flex: 1; /* Aside occupies 1/3 of the width */
+  background-color: #f0f0f0;
+  padding: 10px;
+}/* Add styles to your elements as needed */
+.add-task-container {
+  margin: 20px;
+}
+
+/* Add more styles as needed */
+/* Styles for the input and button */
+.add-task-container {
+  margin: 20px;
+  display: flex;
+  align-items: center;
+}
+
+#newTaskInput {
+  flex-grow: 1;
+  padding: 10px;
+  font-size: 16px;
+}
+
+#addTaskButton {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Styles for the task list */
+#taskList {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px;
+  padding: 10px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-button {
+  background-color: #FF4136;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+/* Existing styles */
+.current-date {
+  font-size: 14px;
+  color: #888;
+}
+/* Styles for the task items */
+.task-item {
+  margin: 10px;
+  padding: 10px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Styles for the task priority */
+/* Styles for the task items */
+.task-item {
+  margin: 10px;
+  padding: 15px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the task priority */
+.task-priority {
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+/* Styles for the task time info */
+.task-time-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Styles for the task start time */
+.task-start-time,
+.task-end-time {
+  font-size: 12px;
+  color: #555;
+}
+
+/* Styles for the task current date */
+.task-current-date {
+  font-size: 12px;
+  color: #888;
+}
+
+/* Styles for the task countdown */
+.task-countdown {
+  font-size: 14px;
+  font-weight: bold;
+  color: #3498db;
+}
+
+
+
+
+</style>
+<body>
+<header>Task page</header>
+<article>
+  <h1>Create your tasks for the day</h1>
+  <h3>"Having a planned day is equivalent to having a planned future. Thats because you control how the day goes!"</h3><br>
+</article>
+  <div class="add-task-container">
+    <input type="text" id="newTaskInput" placeholder="Enter a new task">
+   
+  </div>
+  <label for="startDateTime">Start:</label>
+  <input type="datetime-local" id="startDateTime">
+  <label for="endDateTime">End:</label>
+  <input type="datetime-local" id="endDateTime"> 
+</div>
+
+<div class="filter-container">
+  <label for="taskFilter">Filter:</label>
+  <select id="taskFilter">
+    <option value="all">All</option>
+    <option value="active">Active</option>
+    <option value="completed">Completed</option>
+  </select>
+  <select id="prioritySelect">
+    <option value="low">Low Priority</option>
+    <option value="medium">Medium Priority</option>
+    <option value="high">High Priority</option>
+  </select><br>
+  <button id="addTaskButton">Add Task</button>
+</div>
+
+
+  <ul id="taskList">
+    <!-- Existing tasks will be displayed here -->
+  </ul>
+    <div class="add-task-container">
+      <input type="text" id="newTaskInput" placeholder="Enter a new task">
+    </div>
+</div>
+<label for="startDateTime">Start:</label>
+<input type="datetime-local" id="startDateTime">
+<label for="endDateTime">End:</label>
+<input type="datetime-local" id="endDateTime"> 
+</div>
+
+<div class="filter-container">
+<label for="taskFilter">Filter:</label>
+<select id="taskFilter">
+  <option value="all">All</option>
+  <option value="active">Active</option>
+  <option value="completed">Completed</option>
+</select>
+<select id="prioritySelect">
+  <option value="low">Low Priority</option>
+  <option value="medium">Medium Priority</option>
+  <option value="high">High Priority</option>
+</select><br>
+<button id="addTaskButton">Add Task</button>
+</div>
+  
+    <ul id="taskList">
+      <!-- Existing tasks will be displayed here -->
+    </ul>
+      <div class="add-task-container">
+        <input type="text" id="newTaskInput" placeholder="Enter a new task">
+      </div>
+    </div>
+    <label for="startDateTime">Start:</label>
+    <input type="datetime-local" id="startDateTime">
+    <label for="endDateTime">End:</label>
+    <input type="datetime-local" id="endDateTime"> 
+  </div>
+  
+  <div class="filter-container">
+    <label for="taskFilter">Filter:</label>
+    <select id="taskFilter">
+      <option value="all">All</option>
+      <option value="active">Active</option>
+      <option value="completed">Completed</option>
+    </select>
+    <select id="prioritySelect">
+      <option value="low">Low Priority</option>
+      <option value="medium">Medium Priority</option>
+      <option value="high">High Priority</option>
+    </select><br>
+    <button id="addTaskButton">Add Task</button>
+  </div>
+     
+      <ul id="taskList">
+        <!-- Existing tasks will be displayed here -->  </ul>
+      <div class="add-task-container">
+        <input type="text" id="newTaskInput" placeholder="Enter a new task">
+      </div>
+
+      </ul>
+    
+    </div>
+    <label for="startDateTime">Start:</label>
+    <input type="datetime-local" id="startDateTime">
+    <label for="endDateTime">End:</label>
+    <input type="datetime-local" id="endDateTime"> 
+  </div>
+  
+  <div class="filter-container">
+    <label for="taskFilter">Filter:</label>
+    <select id="taskFilter">
+      <option value="all">All</option>
+      <option value="active">Active</option>
+      <option value="completed">Completed</option>
+    </select>
+    <select id="prioritySelect">
+      <option value="low">Low Priority</option>
+      <option value="medium">Medium Priority</option>
+      <option value="high">High Priority</option>
+    </select><br>
+    <button id="addTaskButton">Add Task</button>
+  </div>
+  <ul id="taskList">
+    <!-- Existing tasks will be displayed here -->
+</ul>
+<div class="add-task-container">
+  <input type="text" id="newTaskInput" placeholder="Enter a new task">
+</div>
+  </ul>
+</div>
+<label for="startDateTime">Start:</label>
+<input type="datetime-local" id="startDateTime">
+<label for="endDateTime">End:</label>
+<input type="datetime-local" id="endDateTime"> 
+</div>
+
+<div class="filter-container">
+<label for="taskFilter">Filter:</label>
+<select id="taskFilter">
+  <option value="all">All</option>
+  <option value="active">Active</option>
+  <option value="completed">Completed</option>
+</select>
+<select id="prioritySelect">
+  <option value="low">Low Priority</option>
+  <option value="medium">Medium Priority</option>
+  <option value="high">High Priority</option>
+</select><br>
+<button id="addTaskButton">Add Task</button>
+</div>
+
+  <ul id="taskList">
+    <!-- Existing tasks will be displayed here -->
+</ul>
+<div class="add-task-container">
+  <input type="text" id="newTaskInput" placeholder="Enter a new task">
+</div>
+  </ul> 
+<div>
+  <label for="startDateTime">Start:</label>
+  <input type="datetime-local" id="startDateTime">
+  <label for="endDateTime">End:</label>
+  <input type="datetime-local" id="endDateTime"> 
+</div>
+
+<div class="filter-container">
+  <label for="taskFilter">Filter:</label>
+  <select id="taskFilter">
+    <option value="all">All</option>
+    <option value="active">Active</option>
+    <option value="completed">Completed</option>
+  </select>
+  <select id="prioritySelect">
+    <option value="low">Low Priority</option>
+    <option value="medium">Medium Priority</option>
+    <option value="high">High Priority</option>
+  </select><br>
+  <button id="addTaskButton">Add Task</button>
+</div>
+
+    <script src="your-script.js">
+      document.addEventListener("DOMContentLoaded", function () {
+    const taskForm = document.getElementById("taskForm");
+    const taskList = document.getElementById("taskList");
+    const addTaskButton = document.getElementById("addTask");
+
+    addTaskButton.addEventListener("click", function () {
+        const taskName = document.getElementById("taskName").value;
+        const startTime = new Date(document.getElementById("startTime").value);
+        const endTime = new Date(document.getElementById("endTime").value);
+
+        const newTask = document.createElement("li");
+        newTask.innerHTML = `
+            <strong>${taskName}</strong><br>
+            Start Time: ${startTime.toLocaleString()}<br>
+            End Time: ${endTime.toLocaleString()}
+        `;
+
+        // Create alarms
+        createAlarm(startTime, `Start of ${taskName}`);
+        createAlarm(endTime, `End of ${taskName}`);
+
+        taskList.appendChild(newTask);
+
+        // Clear form fields
+        taskName.value = "";
+        startTime.value = "";
+        endTime.value = "";
+    });
+
+    function createAlarm(time, message) {
+        const alarm = new Date(time);
+        const now = new Date();
+
+        if (alarm > now) {
+            const timeUntilAlarm = alarm - now;
+            setTimeout(function () {
+                alert(message);
+            }, timeUntilAlarm);
+        }
+    }
+});
+
+    </script>
+
+
+
+
+  <script>
+  // Get references to the input field and button
+  const newTaskInput = document.getElementById("newTaskInput");
+  const addTaskButton = document.getElementById("addTaskButton");
+  const taskList = document.getElementById("taskList");
+  
+  // Add event listener to the button
+  addTaskButton.addEventListener("click", addTask);
+  
+  // Function to add a new task
+  function addTask() {
+    const taskText = newTaskInput.value.trim();
+    if (taskText !== "") {
+      const taskItem = document.createElement("li");
+      taskItem.textContent = taskText;
+      taskList.appendChild(taskItem);
+      newTaskInput.value = ""; // Clear the input field
+    }
+  }
+addTaskButton.addEventListener("click", addTask);
+
+function addTask() {
+  const taskText = newTaskInput.value.trim();
+  if (taskText !== "") {
+    const taskItem = document.createElement("li");
+    taskItem.innerHTML = `
+      <span>${taskText}</span>
+      <button class="delete-button">Delete</button>
+    `;
+    taskList.appendChild(taskItem);
+    newTaskInput.value = "";
+    
+    const deleteButton = taskItem.querySelector(".delete-button");
+    deleteButton.addEventListener("click", () => {
+      taskList.removeChild(taskItem);
+    });
+  }
+}
+
+
+addTaskButton.addEventListener("click", addTask);
+
+// Load tasks from local storage on page load
+window.addEventListener("load", loadTasks);
+
+function addTask() {
+  const taskText = newTaskInput.value.trim();
+  if (taskText !== "") {
+    const taskItem = document.createElement("li");
+    taskItem.innerHTML = `
+      <span>${taskText}</span>
+      <button class="delete-button">Delete</button>
+      <button class="complete-button">Complete</button>
+    `;
+    taskList.appendChild(taskItem);
+    newTaskInput.value = "";
+
+    const deleteButton = taskItem.querySelector(".delete-button");
+    deleteButton.addEventListener("click", () => {
+      taskList.removeChild(taskItem);
+      saveTasks();
+    });
+
+    const completeButton = taskItem.querySelector(".complete-button");
+    completeButton.addEventListener("click", () => {
+      taskItem.classList.toggle("completed");
+      saveTasks();
+    });
+
+    saveTasks();
+  }
+}
+
+function saveTasks() {
+  const tasks = [];
+  const taskItems = taskList.querySelectorAll("li");
+  taskItems.forEach((taskItem) => {
+    const taskText = taskItem.querySelector("span").textContent;
+    const isCompleted = taskItem.classList.contains("completed");
+    tasks.push({ text: taskText, completed: isCompleted });
+  });
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function loadTasks() {
+  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks.forEach((task) => {
+    const taskItem = document.createElement("li");
+    taskItem.innerHTML = `
+      <span>${task.text}</span>
+      <button class="delete-button">Delete</button>
+      <button class="complete-button">Complete</button>
+    `;
+    if (task.completed) {
+      taskItem.classList.add("completed");
+    }
+    taskList.appendChild(taskItem);
+
+    const deleteButton = taskItem.querySelector(".delete-button");
+    deleteButton.addEventListener("click", () => {
+      taskList.removeChild(taskItem);
+      saveTasks();
+    });
+
+    const completeButton = taskItem.querySelector(".complete-button");
+    completeButton.addEventListener("click", () => {
+      taskItem.classList.toggle("completed");
+      saveTasks();
+    });
+  });
+}
+
+const taskFilter = document.getElementById("taskFilter");
+
+addTaskButton.addEventListener("click", addTask);
+taskFilter.addEventListener("change", filterTasks);
+
+// Load tasks from local storage on page load
+window.addEventListener("load", loadTasks);
+
+function addTask() {
+  const taskText = newTaskInput.value.trim();
+  if (taskText !== "") {
+    const taskItem = document.createElement("li");
+    taskItem.innerHTML = `
+      <span>${taskText}</span>
+      <button class="delete-button">Delete</button>
+      <button class="complete-button">Complete</button>
+      <input type="date" class="due-date">
+    `;
+    taskList.appendChild(taskItem);
+    newTaskInput.value = "";
+
+    const deleteButton = taskItem.querySelector(".delete-button");
+    deleteButton.addEventListener("click", () => {
+      taskList.removeChild(taskItem);
+      saveTasks();
+    });
+
+    const completeButton = taskItem.querySelector(".complete-button");
+    completeButton.addEventListener("click", () => {
+      taskItem.classList.toggle("completed");
+      saveTasks();
+    });
+
+    const dueDateInput = taskItem.querySelector(".due-date");
+    dueDateInput.addEventListener("change", () => {
+      saveTasks();
+    });
+
+    saveTasks();
+  }
+}
+
+function filterTasks() {
+  const selectedFilter = taskFilter.value;
+  const taskItems = taskList.querySelectorAll("li");
+  taskItems.forEach((taskItem) => {
+    const isCompleted = taskItem.classList.contains("completed");
+    switch (selectedFilter) {
+      case "active":
+        taskItem.style.display = isCompleted ? "none" : "block";
+        break;
+      case "completed":
+        taskItem.style.display = isCompleted ? "block" : "none";
+        break;
+      default:
+        taskItem.style.display = "block";
+    }
+  });
+}
+const prioritySelect = document.getElementById("prioritySelect");
+addTaskButton.addEventListener("click", addTask);
+taskFilter.addEventListener("change", filterTasks);
+
+// Load tasks from local storage on page load
+window.addEventListener("load", loadTasks);
+
+function addTask() {
+  const taskText = newTaskInput.value.trim();
+  if (taskText !== "") {
+    const taskItem = document.createElement("li");
+    taskItem.innerHTML = `
+      <span>${taskText}</span>
+      <span class="priority">${prioritySelect.value}</span>
+      <button class="delete-button">Delete</button>
+      <button class="complete-button">Complete</button>
+      <input type="date" class="due-date">
+    `;
+    taskList.appendChild(taskItem);
+    newTaskInput.value = "";
+
+    const deleteButton = taskItem.querySelector(".delete-button");
+    deleteButton.addEventListener("click", () => {
+      taskList.removeChild(taskItem);
+      saveTasks();
+    });
+
+    const completeButton = taskItem.querySelector(".complete-button");
+    completeButton.addEventListener("click", () => {
+      taskItem.classList.toggle("completed");
+      saveTasks();
+    });
+
+    const dueDateInput = taskItem.querySelector(".due-date");
+    dueDateInput.addEventListener("change", () => {
+      saveTasks();
+    });
+
+    makeTaskDraggable(taskItem);
+    saveTasks();
+  }
+}
+
+function filterTasks() {
+  // ... (same as before)
+}
+
+function makeTaskDraggable(taskItem) {
+  taskItem.setAttribute("draggable", "true");
+  taskItem.addEventListener("dragstart", (event) => {
+    event.dataTransfer.setData("text/plain", taskItem.textContent);
+  });
+  taskItem.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    taskItem.classList.add("drag-over");
+  });
+  taskItem.addEventListener("dragleave", () => {
+    taskItem.classList.remove("drag-over");
+  });
+  taskItem.addEventListener("drop", (event) => {
+    event.preventDefault();
+    taskItem.classList.remove("drag-over");
+    const sourceText = event.dataTransfer.getData("text/plain");
+    const targetText = taskItem.textContent;
+    event.target.textContent = sourceText;
+    taskItem.textContent = targetText;
+    saveTasks();
+  });
+}
+const startDateTimeInput = document.getElementById("startDateTime");
+const endDateTimeInput = document.getElementById("endDateTime");
+addTaskButton.addEventListener("click", addTask);
+taskFilter.addEventListener("change", filterTasks);
+
+// Load tasks from local storage on page load
+window.addEventListener("load", loadTasks);
+
+function addTask() {
+  const taskText = newTaskInput.value.trim();
+  if (taskText !== "") {
+    const startDateTime = startDateTimeInput.value;
+    const endDateTime = endDateTimeInput.value;
+    
+    const taskItem = document.createElement("li");
+    taskItem.innerHTML = `
+      <span>${taskText}</span>
+      <span class="priority">${prioritySelect.value}</span>
+      <span class="time-info task-time-info">
+  <span class="start-time task-start-time">${formatDateTime(startDateTime)}</span>
+  <span class="end-time task-end-time">${formatDateTime(endDateTime)}</span>
+  <span class="current-date task-current-date">${formatDate(new Date())}</span>
+  <span class="countdown task-countdown"></span>
+</span>
+      <button class="delete-button">Delete</button>
+      <button class="complete-button">Complete</button>
+      <input type="date" class="due-date">
+    `;
+    taskList.appendChild(taskItem);
+    newTaskInput.value = "";
+    startDateTimeInput.value = "";
+    endDateTimeInput.value = "";
+
+    const deleteButton = taskItem.querySelector(".delete-button");
+    // ... (same as before)
+
+    makeTaskDraggable(taskItem);
+    updateCountdown(taskItem, endDateTime);
+    saveTasks();
+  }
+}
+
+function updateCountdown(taskItem, endDateTime) {
+  if (!endDateTime) return;
+
+  const countdownElement = taskItem.querySelector(".countdown");
+  const endTimestamp = new Date(endDateTime).getTime();
+
+  function update() {
+    const now = new Date().getTime();
+    const timeLeft = endTimestamp - now;
+
+    if (timeLeft <= 0) {
+      countdownElement.textContent = "Time's up!";
+    } else {
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+      countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setTimeout(update, 1000); // Update every second
+  }
+
+  update();
+}function addTask() {
+  const taskText = newTaskInput.value.trim();
+  if (taskText !== "") {
+    // ... (existing code)
+
+    const taskItem = document.createElement("li");
+taskItem.innerHTML = `
+  <span>${taskText}</span>
+  <span class="priority task-priority">${prioritySelect.value}</span>
+  <span class="time-info task-time-info">
+    <span class="start-time task-start-time">${formatDateTime(startDateTime)}</span>
+    <span class="end-time task-end-time">${formatDateTime(endDateTime)}</span>
+    <span class="current-date task-current-date">${formatDate(new Date())}</span>
+    <span class="countdown task-countdown"></span>
+  </span>
+  <button class="delete-button">Delete</button>
+  <button class="complete-button">Complete</button>
+  <input type="date" class="due-date">
+`; 
+    taskList.appendChild(taskItem);
+    // ... (existing code)
+  }
+}
+
+function formatDate(date) {
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString(undefined, options);
+}
+function formatDate(date) {
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString(undefined, options);
+}
+function addTask() {
+  const taskText = newTaskInput.value.trim();
+  if (taskText !== "") {
+    const startDateTime = startDateTimeInput.value;
+    const endDateTime = endDateTimeInput.value;
+    
+    const taskItem = document.createElement("li");
+    taskItem.innerHTML = `
+      <span>${taskText}</span>
+      <span class="priority">${prioritySelect.value}</span>
+      <span class="time-info">
+        <span class="start-time">${formatDateTime(startDateTime)}</span>
+        <span class="end-time">${formatDateTime(endDateTime)}</span>
+        <span class="current-date">${formatDate(new Date())}</span>
+        <span class="countdown"></span>
+      </span>
+      <button class="delete-button">Delete</button>
+      <button class="complete-button">Complete</button>
+      <input type="date" class="due-date">
+    `;
+    
+    // Ensure that all task items have consistent classes
+    taskItem.classList.add("task-item");
+    taskItem.querySelector(".priority").classList.add("task-priority");
+    taskItem.querySelector(".time-info").classList.add("task-time-info");
+    taskItem.querySelector(".start-time").classList.add("task-start-time");
+    taskItem.querySelector(".end-time").classList.add("task-end-time");
+    taskItem.querySelector(".current-date").classList.add("task-current-date");
+    taskItem.querySelector(".countdown").classList.add("task-countdown");
+    
+    taskList.appendChild(taskItem);
+    newTaskInput.value = "";
+    startDateTimeInput.value = "";
+    endDateTimeInput.value = "";
+
+    const deleteButton = taskItem.querySelector(".delete-button");
+    // ... (same as before)
+
+    makeTaskDraggable(taskItem);
+    updateCountdown(taskItem, endDateTime);
+    saveTasks();
+  }
+}
+</script>
+<aside>
+            <nav class="vertical-menu">
+                <ul>
+                    <li><a href="index.html">home</a></li>
+                    <li><a href="task creation.html">task creation</a></li>
+                    <li><a href="reminders.html">reminders</a></li>
+                    <li><a href="task details.html">details</a></li>
+                    <li><a href="goals.html">goals</a></li>
+                    <li><a href="diary.html">Diary</a></li>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="notes.html"> notes</a></li>
+                </ul>
+            </nav>
+        </aside>
